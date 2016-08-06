@@ -1,0 +1,3 @@
+[% INCLUDE header, title='Основные принципы работы с MVC Framework Catalyst' %]
+
+<a href="[% ('/catalyst/in_9_steps') %]">Catalyst за 9 шагов</a><br>

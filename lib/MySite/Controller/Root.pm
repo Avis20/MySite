@@ -1,6 +1,7 @@
 package MySite::Controller::Root;
 use Moose;
 use namespace::autoclean;
+use uni::perl qw| :dumper |;
 
 BEGIN { extends 'Catalyst::Controller' }
 
@@ -31,8 +32,7 @@ The root page (/)
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
 
-    # Hello World
-    $c->response->body( $c->welcome_message );
+    $c->stash->{template} = 'index.tt';
 }
 
 =head2 default

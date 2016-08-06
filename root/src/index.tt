@@ -1,0 +1,4 @@
+[% INCLUDE header, title='Добро пожаловать на мой сайт' %]
+
+<a href="[% ('/catalyst/') %]">Основные принципы работы с MVC Framework Catalyst</a><br>
+<a href="[% ('/book1/') %]">Изучаем Perl</a>

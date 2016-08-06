@@ -1,0 +1,3 @@
+[% INCLUDE header, title='Изучаем Perl' %]
+
+<a href="[% ('/book1/scalar_data/') %]">Скалярные данные</a>
