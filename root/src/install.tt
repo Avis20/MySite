@@ -1,0 +1,13 @@
+[% INCLUDE header, title='Установка модулей с cpan' %]
+
+<pre>
+Что бы установить модуль
+
+sudo perl -MCPAN -e 'install ModuleName'
+
+где ModuleName это имя модуля
+
+Для обновления самого модуля для установки:
+
+sudo perl -MCPAN -e 'install Bundle::CPAN'
+</pre>

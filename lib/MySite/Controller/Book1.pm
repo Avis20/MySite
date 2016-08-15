@@ -4,22 +4,10 @@ use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller'; }
 
-=head1 NAME
-
-MySite::Controller::Book1 - Catalyst Controller
-
-=head1 DESCRIPTION
-
-Catalyst Controller.
-
-=head1 METHODS
-
-=cut
-
-
-=head2 index
-
-=cut
+sub base :Chained('') :PathPart('book1') :CaptureArgs(0) {
+    my ( $self, $c ) = @_;
+    push @{ $c->stash->{navigation} }, { title => 'Изучаем Perl', href => $c->uri_for_action('/book1/index') };
+}
 
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
@@ -29,22 +17,27 @@ sub index :Path :Args(0) {
 
 sub scalar_data :Local {
     my ( $self, $c ) = @_;
-
+    
     $c->stash->{template} = 'book1/scalar_data.tt';
 }
 
-=encoding utf8
+sub operators :Local {
+    my ( $self, $c ) = @_;
 
-=head1 AUTHOR
+    $c->stash->{template} = 'book1/operators.tt';
+}
 
-Ярослав,,,
+sub functions :Local {
+    my ( $self, $c ) = @_;
 
-=head1 LICENSE
+    $c->stash->{template} = 'book1/functions.tt';
+}
 
-This library is free software. You can redistribute it and/or modify
-it under the same terms as Perl itself.
+sub exericles :Local {
+    my ( $self, $c ) = @_;
 
-=cut
+    $c->stash->{template} = 'book1/exericles.tt';
+}
 
 __PACKAGE__->meta->make_immutable;
 

@@ -1,0 +1,28 @@
+[% WRAPPER 'wrappers/default.tt' %]
+[% title = "Операторы Perl" %]
+<h4>Управляющая конструкция if</h4>
+<p>Пример простой конструкции</p>
+<pre>
+    if ($name qt 'Ivan'){
+        print $name;
+    }
+</pre>
+<p>С ветвлением</p>
+<pre>
+    if ($name qt 'Ivan'){
+        print $name;
+    } else {
+        print "Your name is not $name";
+    }
+</pre>
+<h4>Цикл while</h4>
+<pre>
+    $count = 0
+    while ($count < 10){
+        $count += 2;
+        print $count;
+    }
+    # Вывод 2 4 6 8 10
+</pre>
+
+[% END # wrapper %]

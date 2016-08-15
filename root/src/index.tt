@@ -1,4 +1,5 @@
 [% INCLUDE header, title='Добро пожаловать на мой сайт' %]
 
 <a href="[% ('/catalyst/') %]">Основные принципы работы с MVC Framework Catalyst</a><br>
-<a href="[% ('/book1/') %]">Изучаем Perl</a>
+<a href="[% ('/book1/') %]">Изучаем Perl</a><br>
+<a href="[% ('/install/') %]">Установка модулей с cpan</a>

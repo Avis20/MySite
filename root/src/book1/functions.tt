@@ -1,0 +1,21 @@
+[% WRAPPER 'wrappers/default.tt' %]
+[% title = "Полезные функции" %]
+<h4>chomp</h4>
+<p>Удаляет символы новой строки</p>
+<pre>
+    $text = "Здесь строка текста\n";
+    print chomp($text);                     # Выводит "Здесь строка текста"
+</pre>
+<p>Чаще всего функция используется виде:</p>
+<pre>
+    chomp($text = &ltSTDIN>);
+</pre>
+<h4>defined</h4>
+<p>Определяет значение undef</p>
+<pre>
+    $name;
+    defined($name);     # false
+    $name = "Ivan";
+    defined($name);     # true
+</pre>
+[% END # wrapper %]

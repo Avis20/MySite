@@ -35,6 +35,12 @@ sub index :Path :Args(0) {
     $c->stash->{template} = 'index.tt';
 }
 
+sub install :Local {
+    my ( $self, $c ) = @_;
+
+    $c->stash->{template} = 'install.tt';
+}
+
 =head2 default
 
 Standard 404 error page

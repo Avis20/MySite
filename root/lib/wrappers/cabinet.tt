@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv='cache-control' content='no-cache'>
+    <meta http-equiv='expires' content='0'>
+    <meta http-equiv='pragma' content='no-cache'>
+    <link rel="shortcut icon" href="/static/img/favicon_2.ico">
+    <title>FONMIX</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, user-scalable=yes" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="/static/css/lib/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/static/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/static/css/dropzone.css">
+    <link rel="stylesheet" href="/static/css/new-admin.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+<script id="contracts-filial" type="text/x-handlebars-template">
+    <div style="background: #f2f2f2; padding: 10px 20px;">
+        <p><span class="m-title">Название</span><br>{{name}}</p>
+        <p><span class="m-title">Адрес</span><br>{{address}}</p>
+        <p><span class="m-title">Юрлицо</span><br>{{full_name}}</p>
+        <p><span class="m-title">ИНН</span><br>{{inn}}</p>
+    </div>
+    {{#ifCond is_enabled 1}}
+    <div style="background: #fff; padding: 10px 20px;">
+        <p>
+            <span class="m-title">Ключ</span><br>{{keys.0.key}}
+            <br>
+            <span>
+            {{#ifCond keys.0.status 1}}
+                <span id="activate-info" class="m-active">Активен</span>
+            {{/ifCond}}
+            {{#ifCond keys.0.status -1}}
+                <span class="m-error">Заблокирован администратором</span>
+            {{/ifCond}}
+            </span>
+        </p>
+        <p>
+            <span class="m-title">ID устройства
+                {{#ifCond keys.0.status 1}}
+                    <a class="m-deactivate" href="#" id="deactivate-gadget" data-id="{{id}}"
+                       data-key="{{keys.0.key}}">(отвязать ключ от устройства)</a>
+                {{/ifCond}}
+            </span>
+            <br>
+            <span id="deactivate-info">
+                {{#ifCondDeactivate keys.0.status 0}}
+                    Устройства не привязаны
+                    {{else}}
+                    {{keys.0.system_key}}
+                {{/ifCondDeactivate}}
+            </span>
+        </p>
+        <p>
+            <span class="m-title">Версия плеера</span>
+            <br>
+            {{#if keys.0.app_version}}
+            {{keys.0.app_version}}
+            {{else}}
+            Нет
+            {{/if}}
+        </p>
+        <div class="row">
+            <div class="col-sm-6 col-xs-6">
+                <p>
+                    <span class="m-title">Дата активации</span>
+                    <br>
+                    {{#if keys.0.activate_time}}
+                        {{keys.0.activate_time}}
+                    {{else}}
+                    Не активирован
+                    {{/if}}
+                </p>
+            </div>
+            <div  class="col-sm-6 col-xs-6">
+                <p>
+                    <span class="m-title">Передача статистики</span>
+                    <br>
+                    {{#if keys.0.last_update_stat_time}}
+                        {{keys.0.last_update_stat_time}}
+                    {{else}}
+                    Статистика не передавалась
+                    {{/if}}
+                </p>
+            </div>
+        </div>
+
+    </div>
+    {{/ifCond}}
+    <div class="text-center">
+        <button type="button" class="btn btn-modal" data-dismiss="modal">Закрыть</button>
+    </div>
+</script>
+
+     <!--ShowModalViewPayments (tab Finance)-->
+<script id="view-payments" type="text/x-handlebars-template">
+    <!--<div class="modal-body-negMarg">-->
+        <div class="table-responsive">
+            <table class="tblInf">
+                <thead>
+                    <tr>
+                        <th>
+                            Дата оплаты
+                        </th>
+                        <th>
+                            Сумма
+                        </th>
+                        <th style="min-width: 140px;">
+                            Номер платежного<br/> поручения
+                        </th>
+                        <th>
+                            Назначения платежа
+                        </th>
+                        <th>
+                            Списания
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                {{#each list}}
+                <tr>
+                    <td>
+                        {{date}}
+                    </td>
+                    <td>
+                        {{sum}}
+                    </td>
+                    <td>
+                        {{num}}
+                    </td>
+                    <td>
+                        {{nomination}}
+                    </td>
+                    <td>
+                        {{#each accruals}}
+                            {{this}}<br/>
+                        {{/each}}
+                    </td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div class="text-center">
+            <button data-dismiss="modal" class="btn btn-modal" type="button">Закрыть</button>
+        </div>
+    <!--</div>-->
+</script>
+     <!--end ShowModalViewPayments (tab Finance)-->
+
+<!--Show Help Page (FAQ) -->
+     <!-- navigation HELP(FAQ) -->
+<script id="view-help-navigation" type="text/x-handlebars-template">
+    {{#each data}}
+    <li class="{{this.class}}">
+        <a data-toggle="tab" href="#{{this.href}}">{{this.name_category}}</a>
+    </li>
+    {{/each}}
+</script>
+    <!-- body HELP (FAQ) -->
+<script id="view-help-body" type="text/x-handlebars-template">
+    {{#each data}}
+        <div class="{{this.class}} tab-pane" id="{{this.href}}">
+            <div class="faq">
+                {{#each this.item}}
+                    <div class="faq-it">
+                        <a  class="faq-it-lnk   {{#unless @first}}collapsed{{/unless}} "  role="button" data-toggle="collapse"
+                            href="#{{ this.title_href }}" >
+                            {{ this.title_name }}
+                        </a>
+                        <div class="collapse faq-it-cnt {{#if @first}}in{{/if}}" id="{{ this.title_href }}">
+                            <div>
+                                {{{ this.title_text }}}
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    {{/each}}
+</script>
+<!--end Show Help Page (FAQ)-->
+
+<script id="timetable-playlist" type="text/x-handlebars-template">
+	{{#each items}}
+		{{#if in_player}}
+		<div class="b-main__wrap-table-sidebar-container-item draggable b-main__wrap-table-sidebar-container-item-color {{getColor id}}" data-type="playlist-label" data-readylist="{{is_readylist}}" data-color="{{getColor id}}" data-id="{{id}}" data-name="{{name}}">
+            <i class="fa fa-close" data-control="schedule-playlist-delete"></i>
+			<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+			<span class="b-main__wrap-table-sidebar-container-item-text">{{name}}</span>
+		</div>
+		{{/if}}
+	{{/each}}
+</script>
+
+<script id="timetable-timerange" type="text/x-handlebars-template">
+	<div class="time-range-text">
+        <i class="fa fa-close m-hidden"></i>
+		<p>{{name}}</p>
+		<span class="time-range-text-time-start">{{start_time}}</span> - <span class="time-range-text-time-end">{{end_time}}</span>
+		<input type="hidden" name="start" value="{{start}}">
+		<input type="hidden" name="end" value="{{end}}">
+	</div>
+</script>
+
+<script id="my-playlist" type="text/x-handlebars-template">
+    {{#each items}}
+    <div class="b-playlist__lists-wrap-item {{#unless @index}}active{{/unless}}" data-id="{{id}}" data-index="{{@index}}">
+        <div class="b-playlist__lists-wrap-item-title">
+            {{name}}
+        </div>
+        <div class="b-playlist__lists-wrap-item-desc">
+            <span class="pull-left">{{count_audios}} треков, {{sec-to-hours duration_audio}} часов звучания</span>
+            <span class="pull-right b-playlist__lists-wrap-item-desc-status {{#unless in_player}}hidden{{/unless}}">Добавлен в плеер</span>
+        </div>
+    </div>
+    {{/each}}
+</script>
+
+
+<script id="my-playlist-copy" type="text/x-handlebars-template">
+    {{#each items}}
+    <div class="b-playlist__lists-wrap-item" data-id="{{id}}" data-index="{{@index}}">
+        <div class="b-playlist__lists-wrap-item-title">
+            {{name}}
+        </div>
+        <div class="b-playlist__lists-wrap-item-desc">
+            <span class="pull-left">{{count_audios}} треков, {{sec-to-hours duration_audio}} часов звучания</span>
+        </div>
+        <a href="#" class="btn btn-primary b-playlist__lists-wrap-item-desc-copy">Скопировать <i class="fa fa-arrow-right"></i></a>
+    </div>
+    {{/each}}
+</script>
+
+<script id="playlist-dropdown-list" type="text/x-handlebars-template">
+  <form action="" method="post" class="b-dropdown-menu" data-name="playlist-dropdown-list">
+    <ul class="b-dropdown-list">
+      {{#each list}}
+        <li data-name="user-dropdown-list">
+          <input type="checkbox" data-control="playlist-timetable-relation" name="timetable.id" value="{{id}}"  id="playlist-dropdown-list-{{id}}"{{#if checked}} checked="checked"{{/if}}>
+          <label for="playlist-dropdown-list-{{id}}" title="{{text}}">{{text}}</label>
+        </li>
+      {{/each}}
+    </ul>
+    <input type="hidden" name="readylist.id" value="{{readylistId}}">
+    <input type="hidden" name="client.item.id" value="{{clientItemId}}">
+  </form>
+</script>
+
+<script id="client-playlist-dropdown-list" type="text/x-handlebars-template">
+  <form action="" method="post" class="b-dropdown-menu" data-name="playlist-dropdown-list">
+    <ul class="b-dropdown-list">
+      {{#each list}}
+        <li data-name="user-dropdown-list">
+          <input type="checkbox" data-control="playlist-timetable-relation" name="timetable.id" value="{{id}}"  id="playlist-dropdown-list-{{id}}"{{#if checked}} checked="checked"{{/if}}>
+          <label for="playlist-dropdown-list-{{id}}" title="{{text}}">{{text}}</label>
+        </li>
+      {{/each}}
+    </ul>
+    <input type="hidden" name="client.playlist.id" value="{{clientPlaylistId}}">
+    <input type="hidden" name="client.item.id" value="{{clientItemId}}">
+  </form>
+</script>
+
+<script id="my-playlist-tracks" type="text/x-handlebars-template">
+    <div class="b-playlist__tracks-head" data-type="dropdown-wrap">
+        <span>{{name}}</span>
+        <button class="btn btn-primary pull-right b-timetable-drop-button" data-id="{{id}}" data-control="{{status.control}}" data-type="{{status.type}}" data-closed="true" data-dropmenu="{{jsonTimetables}}">{{status.text}}</button>
+        <a class="btn btn-primary pull-right" href="[% c.uri_for_action('/cabinet/playlists/edit') %]?client.playlist.id={{id}}">Редактировать подборку</a>
+    </div>
+
+    <div class="b-playlist__tracks-wrap">
+        {{#each audios}}
+        <div class="b-playlist__tracks-wrap-item">
+            <span>{{executor}} - {{name}} {{#if version}}({{version}}){{/if}}</span>
+            <div class="b-playlist__tracks-wrap-item-controls" data-file="{{getTrack files}}">
+                <i class="fa fa-play-circle-o"></i>
+                <i class="fa fa-play m-hidden"></i>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</script>
+
+<script id="edit-my-playlist" type="text/x-handlebars-template">
+    {{#each audios}}
+    <div class="b-playlist__tracks-wrap-item" data-duration="{{duration}}" data-track-id="{{id}}">
+        <i class="fa fa-sort"></i>
+        <span>{{executor}} - {{name}}</span>
+        <div class="b-playlist__tracks-wrap-item-controls" data-file="{{getTrack files}}">
+            <i class="fa fa-play-circle-o"></i>
+            <i class="fa fa-play m-hidden"></i>
+            <i class="fa fa-minus-circle"></i>
+        </div>
+    </div>
+    {{/each}}
+</script>
+
+<script id="search-my-playlist" type="text/x-handlebars-template">
+    {{#each list}}
+    <div class="b-playlist__tracks-wrap-item" data-duration="{{duration}}" data-track-id="{{id}}">
+        <span>{{executor}} - {{name}} {{#if version}}({{version}}){{/if}}</span>
+        <div class="b-playlist__tracks-wrap-item-controls" data-file="{{getTrack files}}">
+            <i class="fa fa-play-circle-o"></i>
+            <i class="fa fa-play m-hidden"></i>
+            <i class="fa fa-plus-circle"></i>
+        </div>
+    </div>
+    {{/each}}
+</script>
+
+<script id="edit-employer" type="text/x-handlebars-template">
+
+    <form id="edit-employer-form" class="form-horizontal">
+        <div class="text-danger"></div>
+        <input type="hidden" name="client.item.id" value="[% c.user.client.id %]">
+        <input type="hidden" name="user.id" value="{{id}}">
+        <div class="form-group">
+            <label for="input-full_name" class="col-xs-5 control-label">Пользователь*</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" id="input-full_name" value="{{client.name}}" disabled>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-client.role.id" class="col-xs-5 control-label">Роль</label>
+            <div class="col-xs-7">
+                <select class="form-control" name="client.role.id" id="input-client.role.id">
+                    [% FOREACH role IN roles %]
+                    <option selected value="[% role.id %]">[% role.name %]</option>
+                    [% END # foreach %]
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-email" class="col-xs-5 control-label">Email*</label>
+            <div class="col-xs-7">
+                <input type="email" class="form-control" name="email" value="{{email}}" id="input-email" disabled>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-first_name" class="col-xs-5 control-label">Имя*</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" name="first_name" value="{{first_name}}" id="input-first_name"
+                       disabled>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-last_name" class="col-xs-5 control-label">Фамилия*</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" name="last_name" value="{{last_name}}" id="input-last_name"
+                       disabled>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-phone" class="col-xs-5 control-label">Телефон*</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" name="phone" value="{{phone}}" id="input-phone"
+                       disabled>
+            </div>
+        </div>
+        <button type="button" id="edit-employer-btn" class="btn btn-primary">Сохранить</button>
+        <button type="button" id="drop-employer-pass" class="btn btn-default">Сбросить пароль</button>
+        <button type="button" id="remove-employer-btn" class="btn btn-default pull-right">Удалить сотрудника</button>
+    </form>
+
+</script>
+
+<script id="default-playlist" type="text/x-handlebars-template">
+    {{#each items}}
+    <div class="col-xs-6 b-default-playlist__list-item" data-playlist-id="{{id}}">
+        <div class="b-default-playlist__list-item-wrap">
+            <div class="b-default-playlist__list-item-head" data-type="dropdown-wrap">
+                <span class="b-default-playlist__list-item-head-title">{{name}}</span>
+                <span class="b-default-playlist__list-item-head-add b-timetable-drop-button" data-id="{{id}}" data-type="{{status.type}}" data-control="{{status.control}}" data-closed="true" data-dropmenu="{{jsonTimetables}}">{{status.text}}</span>
+                <!--span class="b-default-playlist__list-item-head-add {{#if in_player}}m-hidden{{/if}}" data-id="{{id}}" title="Нажмите, чтобы добавить подборку в плеер">Добавить в плеер</span-->
+				        <!--img class="b-default-playlist__list-item-head-add-icon {{#unless in_player}}m-hidden{{/unless}}" title="Эта подборка уже добавлена в плеер" src="/static/img/icon_added.png"-->
+			      </div>
+            <div class="b-default-playlist__list-item-img" data-control="playlist-show" data-id="{{id}}" data-name="{{name}}">
+				          <div class="b-default-playlist__list-item-fade-white"></div>
+                  {{#if cover.files.src}}
+                    <img src="{{cover.files.src}}">
+			            {{else}}
+			              <img src="/static/img/default.png">
+                  {{/if}}
+				          <div class="b-default-playlist__list-item-fade-blue">Список треков</div>
+            </div>
+            <div class="b-default-playlist__list-item-text" data-control="playlist-show" data-id="{{id}}" data-name="{{name}}">
+                <div class="b-default-playlist__list-item-text-overflow">
+                    <p class="b-default-playlist__list-item-title">{{annotation}}</p>
+                    <p class="b-default-playlist__list-item-desc">{{description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</script>
+
+<script id="default-playlist-popup" type="text/x-handlebars-template">
+    {{#each audios}}
+        <div class="b-popup-player__list-item" data-file={{getTrack files}}>
+			<div class="b-popup-player__list-item-left">
+				<span class="b-popup-player__list-item-left-index">{{getIndex @index}}</span>
+				<span class="fa fa-play-circle m-hidden"></span>
+				<span class="fa fa-pause-circle-o m-hidden"></span>
+				<span class="fa fa-play m-hidden"></span>
+			</div>
+			<div class="b-popup-player__list-item-right">{{executor}} - {{name}}</div>
+		</div>
+    {{/each}}
+</script>
+
+<script id="dialog" type="text/x-handlebars-template">
+  <div class="b-dialog-inlay">
+    <div class="b-dialog">
+      <div class="b-dialog-header">
+        <button type="button" class="b-dialog-close" data-control="{{buttonCloseControl}}"><i class="fa fa-times" aria-hidden="true"></i></button>
+        <div class="b-dialog-header-text">{{header}}</div>
+      </div>
+      <div class="b-dialog-content">
+        {{{content}}}
+      </div>
+      <div class="b-dialog-footer">
+        <button type="button" class="b-dialog-button b-dialog-button-action" data-control="{{buttonActionControl}}" data-id={{id}}>{{buttonActionText}}</button>
+        <button type="button" class="b-dialog-button b-dialog-button-cancel" data-control="{{buttonCancelControl}}">{{buttonCancelText}}</button>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script id="b-top-line-template" type="text/x-handlebars-template">
+    <div class="b-top-line">
+        Вы в личном кабинете <b>{{item_name}}</b>
+        <button type="button" data-control="change-role" data-staff-id="{{staff_id}}" data-role-id="{{role_id}}" data-item-id="{{item_id}}" class="btn btn-top-line">Вернуться в кабинет агента</button>
+    </div>
+</script>
+
+
+<!-- jQuery 2.1.4 -->
+<script src="/static/js/jquery-2.1.4.min.js"></script>
+<!-- Bootstrap 3.3.5 -->
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="/static/js/handlebars-v4.0.5.js"></script>
+<script src="/static/js/jquery.custom-scrollbar.js"></script>
+<script>
+    var userId = [% c.user.client.id %];
+    var videoJsPlayer;
+</script>
+<script src="/static/js/new-admin.js"></script>
+<!--script src="/static/js/videojs.js"></script-->
+<script src="http://vjs.zencdn.net/5.8.8/video.js"></script>
+<script src="/static/js/videojs.hls.min.js"></script>
+<script src="/static/js/jquery.mCustomScrollbar.concat.min.js"></script>
+
+<script src="/static/js/jquery.mask.js"></script>
+
+<script>
+    var currentHost = '//[% c.req.base.host %]';
+</script>
+
+<script src="/static/js/controls.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+    <header class="b-header row">
+        <a class="pull-left b-header__logo" href="/cabinet">
+            <!--<img height="30px" src="/static/img/logo-new.png">-->
+            <img src="/static/img/cabinet-logo.png" />
+        </a>
+        <div class="dropdown pull-right text-right">
+            <a href="#" class="b-dropdown-user-button" data-toggle="dropdown">
+                [% (c.user.first_name || c.user.last_name) ? c.user.first_name _ ' ' _ c.user.last_name : (c.user.nickname || c.user.email) %]
+                <!--<b class="caret"></b>-->
+                <span class="glyphicon glyphicon-user glyphicon-chevron-down "></span>
+            </a>
+            <span class="b-dropdown-user-role" data-name="user-role"></span>
+            <ul class="dropdown-menu text-left b-dropdown-list" data-name="user-dropdown-list">
+                <!--li><a class="b-dropdown-list-item b-dropdown-list-icon b-dropdown-list-icon-profile" href="">Мои контактные данные</a></li-->
+                <!--li class="divider"></li-->
+
+                <li class="divider"></li>
+                <li><a class="b-dropdown-list-item b-dropdown-list-icon b-dropdown-list-icon-signout" href="//[% c.config.ID.host %]/logout">Выйти</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="b-main">
+        <div class="row">
+            <div class="col-xs-2 b-main__left">
+                [% INCLUDE 'src/blocks/cabinet/navy.tt' %]
+            </div>
+            <div class="col-xs-10" data-control="scroll">
+                [% content %]
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="modal fade b-popup" tabindex="-1" role="dialog" id="modalInformer">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div  class="modal-body">
+                <div class="modal-body-primary-text"></div>
+                <div class="modal-body-secondary-text"></div>
+                <div class="modal-body-btn">
+                    <button type="button" class="btn btn-modal" data-dismiss="modal">Ок</button>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<audio id="audio-player" class="hidden" width="0" height="0" class="video-js vjs-default-skin"></audio>
+
+<div data-name="dialog"></div>
+
+<script id="user-dropdown-list" type="text/x-handlebars-template">
+    {{#each list}}
+        <li><button type="button" data-control="change-role" data-staff-id="{{staff_id}}" data-role-id="{{role_id}}" data-item-id="{{item_id}}" class="b-dropdown-list-item{{#if active}} b-dropdown-list-icon b-dropdown-list-icon-active{{/if}}">{{name}}</button></li>
+    {{/each}}
+</script>
+
+<script>
+
+    $(document).ready(function(){
+
+        $('[data-control="scroll"]').mCustomScrollbar({
+            theme: "light",
+            scrollInertia: 300
+        });
+
+    });
+    videojs.options.flash.swf = 'video-js.swf';
+    videoJsPlayer = videojs('audio-player');
+
+</script>
+
+</body>
+</html>

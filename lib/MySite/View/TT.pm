@@ -7,7 +7,7 @@ extends 'Catalyst::View::TT';
 __PACKAGE__->config(
     INCLUDE_PATH => [
         MySite->path_to( 'root', 'src' ),
-        MySite->path_to( 'root', 'lib' )
+        MySite->path_to( 'root', 'lib' ),
     ],
     ENCODING => 'utf8',
     TEMPLATE_EXTENSION => '.tt',
