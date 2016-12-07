@@ -65,7 +65,7 @@ L<MySite::Controller::Root>, L<Catalyst>
 
 =head1 AUTHOR
 
-Ярослав,,,
+avis,,,
 
 =head1 LICENSE
 

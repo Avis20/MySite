@@ -1,3 +1,0 @@
-[% INCLUDE header, title='Catalyst за 9 шагов' %]
-
-<a href="[% ('/catalyst/in_9_steps/step1/') %]">Шаг 1: Простой контролер и текстовый документ в качестве БД</a><br>

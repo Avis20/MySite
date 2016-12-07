@@ -1,8 +1,0 @@
-[% WRAPPER 'wrappers/default.tt' %]
-[% title = "Изучаем Perl" %]
-
-<a href="[% ('/book1/scalar_data/') %]">Скалярные данные</a><br>
-<a href="[% ('/book1/operators/') %]">Операторы Perl</a><br>
-<a href="[% ('/book1/functions/') %]">Полезные функции</a><br>
-
-[% END # wrapper %]
