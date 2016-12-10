@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>[% title %]</title>
+    <meta charset="utf-8">
+    <title>[% navigation.list.-1.title.remove('<.+?>') || Главная %]</title>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <h2>[% title %]</h2>
+    <h2>[% navigation.list.-1.title.remove('<.+?>') || Главная %]</h2>
     <section class="content">
         [% content %]
     </section>

@@ -1,0 +1,7 @@
+[% WRAPPER default.tt %]
+<ul>
+    <li>
+        <a href="[% c.uri_for_action('/codecademy/html_css/index') %]">HTML&CSS</a>
+    </li>
+</ul>
+[% END # wrapper %]

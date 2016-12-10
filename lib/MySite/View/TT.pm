@@ -10,7 +10,7 @@ __PACKAGE__->config(
         MySite->path_to( 'root', 'wrappers' ),
     ],
     render_die => 1,
-    ENCODING => 'utf8',
+    ENCODING   => 'utf-8',
 );
 
 
