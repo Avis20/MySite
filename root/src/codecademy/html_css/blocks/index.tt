@@ -1,13 +1,89 @@
-[% WRAPPER default.tt %]
-
+[% INCLUDE up.tt %]
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Quicksand:300,700" rel="stylesheet">
 
 <style>
-    
+    body {
+        background-color: #fff;
+        margin: 0;
+        padding: 0;
+    }
+    header {
+        background-image: url(https://s3.amazonaws.com/codecademy-content/courses/web-101/unit-5/htmlcss1-img_canyon.jpeg);
+        background-position: center center;
+        background-size: cover;
+        height: 700px;
+        width: 100%;
+    }
+    #section_header {
+        margin: 0 auto;
+        text-align: center;
+        position: relative;
+        top: 35%;
+        width: 60%;
+        color: #fff;
+    }
+    h1 {
+        margin: 0;
+        font-family: 'Quicksand', sans-serif;
+        font-size: 70px;
+        font-weight: normal;
+        line-height: 60px;
+    }
+    h2 {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 28px;
+        font-weight: 100;
+    }
+    .partner {
+        padding: 20px;
+        text-align: center;
+        margin: 0 auto;
+        border-bottom: 1px solid #eee;
+    }
+    .partner img {
+        position: relative;
+        top: 6px;
+    }
+    .main {
+        background-image: url('https://s3.amazonaws.com/codecademy-content/courses/web-101/unit-5/shards.png');
+        margin: 0;
+        padding: 40px;
+        color: #fff;
+    }
+    h3, h4 {
+        font-family: 'Quicksand', sans-serif;
+        font-size: 28px;
+        font-weight: 400;
+        line-height: 30px;
+        margin: 10px 0;
+        text-align: center;
+    }
+    p {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 16px;
+        font-weight: 100;
+        line-height: 24px;
+        margin: 0 auto;
+        width: 60%;
+        text-align: center;
+    }
+    .groups {
+        margin: 40px auto;
+    }
+    .item {
+        border: 1px solid #fff;
+        padding: 40px 0;
+        margin: 5px 0;
+        text-align: center;
+    }
+    .item h2 {
+        font-family: 'Quicksand', sans-serif;
+        font-size: 24px;
+    }
 </style>
 
 <header>
-    <div class="section_header">
+    <div id="section_header">
         <h1>Путешествуй как никогда раньше</h1>
         <h2>Если вы ищете приключений или роскошь, позвольте нам помочь вам спланировать идеальный отдых</h2>
     </div>
@@ -38,5 +114,3 @@
         </div>
     </div>
 </div>
-
-[% END # wrapper %]
