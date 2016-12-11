@@ -1,3 +1,7 @@
-[% WRAPPER default.tt; title='Welcome to my site' %]
-here test
+[% WRAPPER default.tt %]
+<ul>
+    <li>
+        <a href="[% c.uri_for_action('/codecademy/index') %]">Codecademy</a>
+    </li>
+</ul>
 [% END # wrapper %]
