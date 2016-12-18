@@ -3,5 +3,8 @@
     <li>
         <a href="[% c.uri_for_action('/codecademy/index') %]">Codecademy</a>
     </li>
+    <li>
+        <a href="[% c.uri_for_action('/deepperl/index') %]">DeepPerl</a>
+    </li>
 </ul>
 [% END # wrapper %]

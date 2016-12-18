@@ -1,0 +1,212 @@
+[% WRAPPER default.tt %]
+<div class="desc">
+    <p>
+        Идем по списку необходимых вещей<br>
+        Если вещи нет в мих вещах, то выводим сообщение с отсутствием
+    </p>
+</div>
+<pre class="code">
+    my @required = qw(buttle water hat shirts phone book);
+    my @my_things = qw(water buttle book);
+
+    foreach my $item (@required){
+        unless (grep $item eq $_, @my_things) {
+            print "Отсутствует: $item.\n";
+        }
+    }
+</pre>
+<pre class="result">
+    Отсутствует: hat.
+    Отсутствует: shirts.
+    Отсутствует: phone.
+</pre>
+<hr>
+<div class="desc">
+    <p>
+        Для повтороного использования кода, вынесим в функцию
+    </p>
+</div>
+<pre class="code">
+    sub check_required_items {
+        my $who = shift;
+        my @required = qw(buttle water hat shirts phone book);
+
+        foreach my $item (@required){
+            unless (grep $item eq $_, @_) {
+                print "$who: отсутствует $item.\n";
+            }
+        }
+    }
+
+    my @vasya = qw(water buttle book);
+    check_required_items('Вася', @vasya);
+    print "\n";
+    my @petya = qw(hat book phone);
+    check_required_items('Петя', @petya);
+</pre>
+<pre class="result">
+    Вася: отсутствует hat.
+    Вася: отсутствует shirts.
+    Вася: отсутствует phone.
+
+    Петя: отсутствует buttle.
+    Петя: отсутствует water.
+    Петя: отсутствует shirts.
+</pre>
+<hr>
+<div class="desc">
+    <p>
+        Использование ссылки на массив
+    </p>
+</div>
+<pre class="code">
+    sub check_required_items {
+        my $who = shift;
+        my $items = shift;
+        my @required = qw(buttle water hat shirts phone book);
+
+        foreach my $item (@required){
+            unless (grep $item eq $_, @$items) {
+                print "$who: отсутствует $item.\n";
+            }
+        }
+    }
+
+    my @vasya = qw(water buttle book);
+    check_required_items('Вася', \@vasya);
+    print "\n";
+    my @petya = qw(hat book phone);
+    check_required_items('Петя', \@petya);
+    print "\n";
+    my @gena = qw(shirts water);
+    check_required_items('Гена', \@gena);
+</pre>
+<pre class="result">
+    Вася: отсутствует hat.
+    Вася: отсутствует shirts.
+    Вася: отсутствует phone.
+
+    Петя: отсутствует buttle.
+    Петя: отсутствует water.
+    Петя: отсутствует shirts.
+
+    Гена: отсутствует buttle.
+    Гена: отсутствует hat.
+    Гена: отсутствует phone.
+    Гена: отсутствует book.
+</pre>
+<hr>
+<div class="desc">
+    <p>
+        Изменяем оригинальный массив в подпрограмме<br>
+        После выхода из подпрограммы, массиыв @required, @vasya, @petya, @gena будут одинаковы
+    </p>
+</div>
+<pre class="code">
+    sub check_required_items {
+        my $who = shift;
+        my $items = shift;
+        my @required = qw(buttle water hat shirts phone book);
+        my @missing = ();
+
+        foreach my $item (@required){
+            unless (grep $item eq $_, @$items) {
+                print "$who: отсутствует $item.\n";
+                push @missing, $item;
+            }
+        }
+        if (@missing){
+            print "Добавлен @missing в саквояж @$items пасажира $who.\n";
+            push @$items, @missing;
+        }
+    }
+
+    my @vasya = qw(water buttle book);
+    check_required_items('Вася', \@vasya);
+    print "\n";
+    my @petya = qw(hat book phone);
+    check_required_items('Петя', \@petya);
+    print "\n";
+    my @gena = qw(shirts water);
+    check_required_items('Гена', \@gena);
+</pre>
+<pre class="result">
+    Вася: отсутствует hat.
+    Вася: отсутствует shirts.
+    Вася: отсутствует phone.
+    Добавлен hat shirts phone в саквояж water buttle book пасажира Вася.
+
+    Петя: отсутствует buttle.
+    Петя: отсутствует water.
+    Петя: отсутствует shirts.
+    Добавлен buttle water shirts в саквояж hat book phone пасажира Петя.
+
+    Гена: отсутствует buttle.
+    Гена: отсутствует hat.
+    Гена: отсутствует phone.
+    Гена: отсутствует book.
+    Добавлен buttle hat phone book в саквояж shirts water пасажира Гена.
+</pre>
+<hr>
+<div class="desc">
+    <p>
+        Использование вложенных структур.
+    </p>
+</div>
+<pre class="code">
+    my @skipper = qw(шляпа телефон карта вода накидка рюкзак плащь палатка);
+    my @skipper_with_name = ('Шкипер', \@skipper);
+    my @professor = qw(шляпа телефон карта плащь палатка наущники микрофон);
+    my @professor_with_name = ('Профессор', \@professor);
+    my @gilligan = qw(вода телефон плащь);
+    my @gilligan_with_name = ('Джилиган', \@gilligan);
+
+    my @all_with_names = (
+        \@skipper_with_name,
+        \@professor_with_name,
+        \@gilligan_with_name,
+    );
+
+    foreach my $person (@all_with_names) {
+        check_required_items(@$person);
+    }
+
+    sub check_required_items {
+        my $who = shift;
+        my $items = shift;
+        my @required = qw(шляпа телефон карта вода накидка рюкзак плащь палатка наущники микрофон);
+        my @missing = ();
+
+        foreach my $item (@required){
+            unless (grep $item eq $_, @$items) {
+                print "$who: отсутствует $item.\n";
+                push @missing, $item;
+            }
+        }
+        if (@missing){
+            print "Добавлен @missing в саквояж @$items пасажира $who.\n";
+            push @$items, @missing;
+        }
+    }
+</pre>
+<pre class="result">
+    Шкипер: отсутствует наущники.
+    Шкипер: отсутствует микрофон.
+    Добавлен наущники микрофон в саквояж шляпа телефон карта вода накидка рюкзак плащь палатка пасажира Шкипер.
+    Профессор: отсутствует вода.
+    Профессор: отсутствует накидка.
+    Профессор: отсутствует рюкзак.
+    Добавлен вода накидка рюкзак в саквояж шляпа телефон карта плащь палатка наущники микрофон пасажира Профессор.
+    Джилиган: отсутствует шляпа.
+    Джилиган: отсутствует карта.
+    Джилиган: отсутствует накидка.
+    Джилиган: отсутствует рюкзак.
+    Джилиган: отсутствует палатка.
+    Джилиган: отсутствует наущники.
+    Джилиган: отсутствует микрофон.
+    Добавлен шляпа карта накидка рюкзак палатка наущники микрофон в саквояж вода телефон плащь пасажира Джилиган.
+</pre>
+<hr>
+
+
+[% END # wrapper %]

@@ -1,0 +1,7 @@
+[% WRAPPER default.tt %]
+<ul>
+    <li>
+        <a href="[% c.uri_for_action('/deepperl/links/index') %]">4 Введение в ссылки</a>
+    </li>
+</ul>
+[% END # wrapper %]

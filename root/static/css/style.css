@@ -1,8 +1,34 @@
+@font-face {
+    font-family: "Andale Mono";
+    src:url(/static/fonts/andale-mono.ttf);
+}
+
 h2 {
     color: red;
 }
-
 .content {
     width: 700px;
     margin: 0 auto;
+}
+.code {
+    padding: 15px;
+    border: 3px #666 solid;
+    border-radius: 3px;
+    font-family: "Andale Mono";
+    font-size: 14px;
+    word-wrap: break-word;
+    overflow: auto;
+}
+.result {
+    padding: 15px;
+    border: 3px green solid;
+    border-radius: 3px;
+    font-family: "Andale Mono";
+    font-size: 14px;
+    word-wrap: break-word;
+    overflow: auto;
+}
+.result:before {
+    content: "Результат:";
+    display: block;
 }
