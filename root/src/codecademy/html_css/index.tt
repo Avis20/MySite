@@ -3,5 +3,8 @@
     <li>
         <a href="[% c.uri_for_action('/codecademy/html_css/blocks/index') %]">Классы, id-шники, div-ы</a>
     </li>
+    <li>
+        <a href="[% c.uri_for_action('/codecademy/html_css/box_model/index') %]">Box model</a>
+    </li>
 </ul>
 [% END # wrapper %]
