@@ -1,13 +1,12 @@
 [% INCLUDE up.tt %]
-
 <title>Davie JR's Menu</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,500,700|Oswald:300,400,700">
 <style>
     * {
-        border: 1px solid rgba(0,0,0,0.3);
+	    /*border: 1px solid rgba(0,0,0,0.3);*/
     }
     body {
-        background-image: url('/static/img/burger.jpg');
+       /* background-image: url('/static/img/burger.jpg');*/
         background-repeat: no-repeat;
         overflow: hidden;
         text-align: center;
@@ -22,6 +21,74 @@
     }
     nav img {
         width: 180px;
+    }
+    nav li {
+        color: #666;
+        display: inline-block;
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        font-weight: 100;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin: 20px;
+    }
+    .content_box {
+        overflow: scroll;
+        background-color: rgba(255,255,255,0.9);
+        height: 500px;
+        width: 80%;
+        margin: 0 auto;
+        position: relative;
+        top: 220px;
+    }
+    .content_box ul {
+        padding: 40px 0px;
+    }
+    .content_header {
+        background-image: url(https://s3.amazonaws.com/codecademy-content/courses/web-101/unit-6/htmlcss1-img_burgerphoto.jpeg);
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        top: -50px;
+        height: 320px;
+    }
+    .content_body {
+        margin: 0 auto;
+        width: 90%;
+    }
+    h1 {
+        color: #fff;
+        background-color: #05a8aa;
+        position: relative;
+        top: 130px;
+        font: 300 40px/40px 'Oswald', sans-serif;
+        text-transform: uppercase;
+        margin: 0 auto;
+        width: 70%;
+        padding: 20px;
+    }
+    p {
+        color: #333;
+        font: 100 18px/34px 'Roboto', sans-serif;
+        min-width: 200px;
+        max-width: 800px;
+        min-height: 100px;
+        max-height: 200px;
+        margin: 0 auto;
+        margin-bottom: 20px;
+    }
+    .btn {
+        color: #05a8aa;
+        border: 1px solid #05a8aa;
+        border-radius: 4px;
+        text-decoration: none;
+        text-transform: uppercase;
+        padding: 20px;
+    }
+    .btn:hover {
+        background-color: #05a8aa;
+        border: 1px solid #05a8aa;
+        color: #fff;
     }
 </style>
 
@@ -41,7 +108,7 @@
     </div>
     <div class="content_body">
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio ad esse culpa vel fuga. Atque magni repellendus optio, perspiciatis, minima necessitatibus quia tenetur itaque soluta porro, quae. Iste, ut dolores!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio ad esse culpa vel fuga. Atque magni repellendus optio, perspiciatis, minima necessitatibus quia tenetur itaque soluta porro, quae. Iste, ut dolores!</p>
-        <a href="#">Order Now</a>
+        <a href="#"class="btn">Order Now</a>
         <ul>
             <li>
                 <h3>Calories</h3>

@@ -2,12 +2,12 @@
     #home_link {
         position: absolute;
         background-image: url('/static/img/arrow_left.png');
-        /*background-color: #fff;*/
         background-position: center center;
         background-size: cover;
         height: 50px;
         width: 50px;
         cursor: pointer;
+	z-index: 1;
     }
 </style>
 <div id="home_link" onclick="goBack()"></div>
