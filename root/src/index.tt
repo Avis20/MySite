@@ -6,5 +6,8 @@
     <li>
         <a href="[% c.uri_for_action('/deepperl/index') %]">DeepPerl</a>
     </li>
+    <li>
+        <a href="[% c.uri_for_action('/perl/index') %]">Perl</a>
+    </li>
 </ul>
 [% END # wrapper %]

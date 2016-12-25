@@ -10,5 +10,6 @@
     <section class="content">
         [% content %]
     </section>
+    [% INCLUDE footer.tt %]
 </body>
 </html>

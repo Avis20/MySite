@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+   <h2>SQL - язык структурированных запросов</h2>
+   <h4>Создание/Открытие базы</h4>
+   <pre class="code">
+       $ sqlite3 Database.db
+   </pre>
+   <pre class="result">
+       
+   </pre>
+   <hr>
+
+   <h4>Создание таблицы</h4>
+   <pre class="code">
+       sqlite> CREATE TABLE users (id INTEGER, name TEXT, age INTEGER);
+   </pre>
+   <pre class="result">
+       
+   </pre>
+   <hr>
+
+   <h4>Добавление данных</h4>
+   <pre class="code">
+        sqlite> INSERT INTO users (id, name, age) VALUES (1, 'user 1', 21);
+        sqlite> INSERT INTO users (id, name, age) VALUES (2, 'user 2', 22);
+        sqlite> INSERT INTO users (id, name, age) VALUES (3, 'user 3', 23);
+        sqlite> INSERT INTO users (id, name, age) VALUES (4, 'user 4', 24);
+   </pre>
+   <pre class="result">
+       
+   </pre>
+   <hr>
+
+   <h4>Запрос на выборку всех полей</h4>
+   <pre class="code">
+       sqlite> SELECT * FROM users;
+   </pre>
+   <pre class="result">
+        1|user 1|21
+        2|user 2|22
+        3|user 3|23
+        4|user 4|24
+        5|user 4|24
+        6|user 3|23
+   </pre>
+   <hr>
+
+   <h4>Запрос на выборку выбраных полей</h4>
+   <pre class="code">
+       sqlite> SELECT name FROM users;
+   </pre>
+   <pre class="result">
+        user 1
+        user 2
+        user 3
+        user 4
+        user 4
+        user 3
+   </pre>
+   <hr>
+
+   <h4>Запрос на выборку выбраных полей, с уникальными значениями</h4>
+   <pre class="code">
+       sqlite> SELECT DISTINCT name FROM users;
+   </pre>
+   <pre class="result">
+        user 1
+        user 2
+        user 3
+        user 4
+   </pre>
+   <hr>
+
+   <h4>Добавление полей</h4>
+   <pre class="code">
+       sqlite> ALTER TABLE users ADD COLUMN email TEXT;
+   </pre>
+   <pre class="result">
+       
+   </pre>
+   <hr>
+   
+   <h4>Добавление полей</h4>
+   <pre class="code">
+       sqlite> ALTER TABLE users ADD COLUMN email TEXT;
+   </pre>
+   <pre class="result">
+       
+   </pre>
+   <hr>
+
+
+
+COUNT takes the name of a column(s) as an argument and counts the number of rows where the value(s) is not NULL.
+GROUP BY is a clause used with aggregate functions to combine data from one or more columns.
+SUM() takes the column name as an argument and returns the sum of all the values in that column.
+MAX() takes the column name as an argument and returns the largest value in that column.
+MIN() takes the column name as an argument and returns the smallest value in that column.
+AVG() takes a column name as an argument and returns the average value for that column.
+ROUND() takes two arguments, a column name and the number of decimal places to round the values in that column.
+</body>
+</html>
