@@ -6,7 +6,7 @@
 	    /*border: 1px solid rgba(0,0,0,0.3);*/
     }
     body {
-       /* background-image: url('/static/img/burger.jpg');*/
+        /*background-image: url('/static/img/burger.jpg');*/
         background-repeat: no-repeat;
         overflow: hidden;
         text-align: center;
@@ -89,6 +89,33 @@
         background-color: #05a8aa;
         border: 1px solid #05a8aa;
         color: #fff;
+    }
+    .content_box ul {
+        /*padding: 40px 0;*/
+    }
+    .content_box li {
+        background-color: #05a8aa;
+        display: inline-block;
+        list-style: none;
+        padding: 20px 40px;
+        width: 200px;
+        margin-bottom: 3px;
+    }
+    h3, h2 {
+        font-family: 'Roboto', sans-serif;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin: 0;
+    }
+    .content_box li h3 {
+        color: rgba(255,255,255,0.6);
+        font-size: 16px;
+        font-weight: 400;
+    }
+    .content_box li h2 {
+        color: #fff;
+        font-size: 26px;
+        font-weight: 700;
     }
 </style>
 
